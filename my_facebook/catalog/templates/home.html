@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="container content">
+        <h2 class="text-center">Добро пожаловать в мини Соцсеть!</h2>
+        <div class="text-center">
+            <img src="{% static 'img/network.png' %}">
+            <br>
+            <br>
+            <br>
+            <a href="#" class="btn btn-info">Войти</a>
+            <a href="#" class="btn btn-primary">Регистрация</a>
+        </div>
+    </div>
+{% endblock %}
