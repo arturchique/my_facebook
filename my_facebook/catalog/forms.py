@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 
 
 class RegisterForm(forms.Form):
@@ -15,3 +16,4 @@ class RegisterForm(forms.Form):
             self.add_error("password_confirm", u"Пароли не совпадают")
             return False
         return valid
+

@@ -1,16 +1,13 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block content %}
-    {% if user_error %}
-    <h1>{{user_error}}</h1>
-    {% endif %}
     <div class="container content" style="text-align: center;">
-        <div style="width: 300px; display: inline-block;">
-            <h2>Регистрация</h2>
+        <div style="display: inline-block; width: 300px;">
+            <h2>Вход в мини Соцсеть</h2>
             <form method="post" class="bootstrap-form">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="submit" class="btn btn-success" value="Регистрация">
+                <input type="submit" class="btn btn-success" value="Войти">
             </form>
         </div>
     </div>

@@ -7,10 +7,23 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
 from .forms import RegisterForm
+from django.contrib.auth import authenticate
+from django.db import IntegrityError
 
 
 class HomeView(TemplateView):
     template_name = "home.html"
+
+
+def test(request):
+    users = User.objects.all()
+    return render(
+        request,
+        'test.html',
+        context={
+            'users': users
+        },
+    )
 
 
 class RegisterView(TemplateView):
@@ -18,17 +31,23 @@ class RegisterView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         form = RegisterForm()
-        if request.method == 'POST':
-            form = RegisterForm(request.POST)
-            if form.is_valid():
-                self.create_new_user(form)
-                messages.success(request, u"Вы успешно зарегистрировались!")
-                return redirect("/")
-
-        context = {
-            'form': form
-        }
-        return render(request, self.template_name, context)
+        try:
+            if request.method == 'POST':
+                form = RegisterForm(request.POST)
+                if form.is_valid():
+                    self.create_new_user(form)
+                    messages.success(request, u"Вы успешно зарегистрировались!")
+                    return redirect(reverse("login"))
+            context = {
+                'form': form,
+            }
+            return render(request, self.template_name, context)
+        except IntegrityError:
+            context = {
+                'form': form,
+                'user_error': "Пользователь с таким именем уже существует",
+            }
+            return render(request, self.template_name, context)
 
     def create_new_user(self, form):
         email = None
